@@ -1,19 +1,13 @@
 package com.example.demoapi.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
 
 @Entity
-@Table(name = "client")
-public class Client {
-    @jakarta.persistence.Id
-    @Column(name = "Id")
-    @GenericGenerator(name = "generator", strategy = "increment")
-    @GeneratedValue(generator = "generator")
+@Table(name = "USERS")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "name")
     private String name;
@@ -22,14 +16,16 @@ public class Client {
     @Column(name = "phone")
     private String phone;
 
-    public Client(){}
+    public User(){}
+
+    public User(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -57,11 +53,8 @@ public class Client {
     }
     @Override
     public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email=" + email +
-                ", phone=" + phone +
-                '}';
+        return "User [id: " + id + " , name: " + name +
+                " , email: " + email + " , phone: " + phone;
+
     }
 }

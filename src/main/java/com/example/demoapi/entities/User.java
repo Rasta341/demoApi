@@ -6,8 +6,11 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "USERS")
 public class User {
+    @SequenceGenerator(
+            name = "SequenceGenerator",
+            allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SequenceGenerator")
     private Long id;
     @Column(name = "name")
     private String name;

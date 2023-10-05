@@ -1,4 +1,4 @@
-package com.example.demoapi.service;
+package com.example.demoapi.controller;
 
 import com.example.demoapi.entities.User;
 import com.example.demoapi.repositories.UserRepository;

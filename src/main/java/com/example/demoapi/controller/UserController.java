@@ -1,7 +1,7 @@
 package com.example.demoapi.controller;
 
-import com.example.demoapi.entities.User;
-import com.example.demoapi.repositories.UserRepository;
+import com.example.demoapi.userentities.User;
+import com.example.demoapi.userrepositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

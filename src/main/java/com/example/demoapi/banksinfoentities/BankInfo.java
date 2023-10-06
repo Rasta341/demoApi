@@ -1,7 +1,6 @@
-package com.example.demoapi.entities;
+package com.example.demoapi.banksinfoentities;
 
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 
 @Entity
 @Table(name = "BANKS")

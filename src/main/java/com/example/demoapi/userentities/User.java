@@ -1,7 +1,6 @@
-package com.example.demoapi.entities;
+package com.example.demoapi.userentities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "USERS")

@@ -1,7 +1,7 @@
 package com.example.demoapi.service;
 
-import com.example.demoapi.entities.User;
-import com.example.demoapi.repositories.UserRepository;
+import com.example.demoapi.userentities.User;
+import com.example.demoapi.userrepositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

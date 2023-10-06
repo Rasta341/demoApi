@@ -1,6 +1,6 @@
 package com.example.demoapi.parser;
 
-import com.example.demoapi.entities.BankInfo;
+import com.example.demoapi.banksinfoentities.BankInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

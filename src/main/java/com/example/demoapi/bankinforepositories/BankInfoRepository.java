@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BankInfoRepository extends JpaRepository<BankInfo, Long> {
-    List<BankInfo> findBankInfoByAdressContaining(String adress);
-    boolean existsBankInfoByAdress(String adress);
+    List<BankInfo> findBankInfoByNameContaining(String name);
+    boolean existsBankInfoByName(String name);
 }

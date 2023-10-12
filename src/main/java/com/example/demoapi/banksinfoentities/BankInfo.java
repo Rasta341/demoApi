@@ -1,12 +1,16 @@
 package com.example.demoapi.banksinfoentities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "BANKS")
 public class BankInfo {
+    @SequenceGenerator(
+            name = "SequenceGenerator",
+            allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SequenceGenerator")
     private Long id;
     private String name;
     private String adress;

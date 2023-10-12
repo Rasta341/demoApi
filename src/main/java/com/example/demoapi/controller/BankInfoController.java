@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@CrossOrigin(origins = "localhost:8082")
+@CrossOrigin(origins = "http://localhost:8082")
     @RestController
     @RequestMapping("/api")
     public class BankInfoController {
@@ -18,17 +19,16 @@ import java.util.List;
         private BankInfoRepository bankInfoRepository;
 
         @GetMapping("/banksInfo")
-        public ResponseEntity<List<BankInfo>> getAllBanksInfo(@RequestParam(required = false) String adress) {
+        public ResponseEntity<List<BankInfo>> getAllBanksInfo(@RequestParam(required = false) String name) {
             try {
                 List<BankInfo> banksInfo = new ArrayList<BankInfo>();
-                if (adress == null)
+                if (name == null)
                     banksInfo.addAll(bankInfoRepository.findAll());
                 else
-                    banksInfo.addAll(bankInfoRepository.findBankInfoByAdressContaining(adress));
+                    banksInfo.addAll(bankInfoRepository.findBankInfoByNameContaining(name));
                 if (banksInfo.isEmpty()) {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return new ResponseEntity<>(HttpStatus.OK);
+                } else return new ResponseEntity<>(banksInfo, HttpStatus.CREATED);
             } catch (Exception e) {
                     return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -37,7 +37,7 @@ import java.util.List;
     @PostMapping("/banksInfo")
     public ResponseEntity<BankInfo> createBankInfo(@RequestBody BankInfo bankInfo) {
         try {
-            boolean bankInfoExists = bankInfoRepository.existsBankInfoByAdress(bankInfo.getAdress());
+            boolean bankInfoExists = bankInfoRepository.existsBankInfoByName(bankInfo.getName());
             if (bankInfoExists) {
                 return new ResponseEntity<>(null, HttpStatus.CONFLICT);
             }
@@ -49,4 +49,59 @@ import java.util.List;
         }
     }
 
+    @GetMapping("/banksInfo/{id}")
+    public ResponseEntity<BankInfo> getBankInfoById(@PathVariable("id") Long id) {
+        Optional<BankInfo> bankInfoData = bankInfoRepository.findById(id);
+
+        if (bankInfoData.isPresent()) {
+            return new ResponseEntity<>(bankInfoData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/banksInfo/{id}")
+    public ResponseEntity<BankInfo> updateBankInfo(@PathVariable("id") Long id,
+                                           @RequestBody BankInfo bankInfo) {
+        Optional<BankInfo> bankInfoData = bankInfoRepository.findById(id);
+
+        if (bankInfoData.isPresent()) {
+            BankInfo _bankInfo = bankInfoData.get();
+            if (bankInfo.getName() != null) {
+                _bankInfo.setName(bankInfo.getName());
+            }
+            if(bankInfo.getAdress() != null) {
+                _bankInfo.setAdress(bankInfo.getAdress());
+            }
+            if(bankInfo.getPhones() != null) {
+                _bankInfo.setPhones(bankInfo.getPhones());
+            }
+            if(bankInfo.getWorkHours() != null){
+                _bankInfo.setWorkHours(bankInfo.getWorkHours());
+            }
+            return  new ResponseEntity<>(bankInfoRepository.save(_bankInfo), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/banksInfo/{id}")
+    public ResponseEntity<HttpStatus> deleteBankInfo(@PathVariable(value = "id") Long id) {
+        try {
+            bankInfoRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/banksInfo")
+    public ResponseEntity<HttpStatus> deleteAllBanksInfo() {
+        try {
+            bankInfoRepository.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
